@@ -1,0 +1,21 @@
+---
+# Kevin M. Meziere <kmeziere@jpcatholic.com>
+# Copyright 2015, John Paul the Great Catholic University
+
+- name: Lookup version of Wiggle
+  shell: pkgin list | grep fifo-sniffle | awk '{print $1}'
+  register: wiggle_version_installed
+  changed_when: wiggle_version_installed.stdout != '{{wiggle_version_required}}'
+  ignore_errors: True
+
+- name: Install/Upgrade Wiggle
+  command: pkg_add -u http://release.project-fifo.net/pkg/'{{wiggle_release}}'/'{{wiggle_version_required}}'.tgz 
+  when: wiggle_version_installed.stdout != '{{wiggle_version_required}}'
+
+- name: Configure Wiggle
+  template: src=wiggle-config.j2 dest=/opt/local/fifo-wiggle/etc/wiggle.conf backup=yes
+  notify: Bounce Wiggle
+
+- name: Enable Wiggle
+  service: name=wiggle state=started enabled=yes
+  when: "'wiggle_no_start' not in group_names"
