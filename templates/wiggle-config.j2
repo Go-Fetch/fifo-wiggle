@@ -841,7 +841,7 @@ rpc.encoding = json
 ## 
 ## Acceptable values:
 ##   - text
-nodename = wiggle@127.0.0.1
+nodename = wiggle@{{ ansible_default_ipv4['address'] }}
 
 ## Cookie for distributed node communication.  All nodes in the
 ## same cluster should use the same cookie or they will not be able to
