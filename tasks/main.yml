@@ -16,6 +16,10 @@
   template: src=wiggle-config.j2 dest=/opt/local/fifo-wiggle/etc/wiggle.conf backup=yes
   notify: Bounce Wiggle
 
+- name: Enable EPMD
+  service: name=epmd state=started enabled=yes
+  when: "'wiggle_no_start' not in {{ group_names }}"
+
 - name: Enable Wiggle
   service: name=wiggle state=started enabled=yes
   when: "'wiggle_no_start' not in {{ group_names }}"
