@@ -3,5 +3,6 @@
 # Copyright 2015, John Paul the Great Catholic University
 
 - name: Bounce Wiggle
-  service: name=wiggle state=restarted enabled=yes
+  shell: "svcadm restart wiggle; svcadm clear wiggle"
+#  service: name=wiggle state=restarted enabled=yes
   when: "'wiggle_no_start' not in {{ group_names }}"

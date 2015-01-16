@@ -26,7 +26,7 @@
 #  when: "'wiggle_no_start' not in {{ group_names }}"
 #  register: wiggle_service_start
 
-#- name: Pause for Sniffle Startup
+#- name: Pause for Wiggle Startup
 #  pause: seconds=20
 #  when: wiggle_service_start.changed != False
 
@@ -34,5 +34,5 @@
   shell: "svcadm enable wiggle"
   when: "'wiggle_no_start' not in {{ group_names }}"
 
-- name: Pause for Sniffle Startup
+- name: Pause for Wiggle Startup
   pause: seconds=20
