@@ -14,7 +14,7 @@
 
 - name: Configure Wiggle
   template: src=wiggle-config.j2 dest=/opt/local/fifo-wiggle/etc/wiggle.conf backup=yes
-  notify: Bounce Wiggle
+#  notify: Bounce Wiggle
 
 - name: Enable EPMD
   service: name=epmd state=started enabled=yes
@@ -33,6 +33,3 @@
 - name: Enable Wiggle
   shell: "svcadm enable wiggle"
   when: "'wiggle_no_start' not in {{ group_names }}"
-
-- name: Pause for Wiggle Startup
-  pause: seconds=20
