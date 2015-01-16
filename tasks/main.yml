@@ -20,10 +20,17 @@
   service: name=epmd state=started enabled=yes
   when: "'wiggle_no_start' not in {{ group_names }}"
 
+# to be used when FIFO-595 is closed
+#- name: Enable Wiggle
+#  service: name=wiggle state=started enabled=yes 
+#  when: "'wiggle_no_start' not in {{ group_names }}"
+#  register: wiggle_service_start
+
 - name: Enable Wiggle
-  service: name=wiggle state=started enabled=yes
+  shell: "svcadm enable wiggle"
   when: "'wiggle_no_start' not in {{ group_names }}"
   register: wiggle_service_start
+
 
 - name: Pause for Sniffle Startup
   pause: seconds=20
