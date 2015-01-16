@@ -2,6 +2,6 @@
 # Kevin M. Meziere <kmeziere@jpcatholic.com>
 # Copyright 2015, John Paul the Great Catholic University
 
-wiggle_release: dev
-wiggle_version_required: fifo-wiggle-0.6.1pre20150111T150934Z
+wiggle_release: rel
+wiggle_version_required: fifo-wiggle-0.6.1p1
 wiggle_cookie: <<wiggle_cookie>>
