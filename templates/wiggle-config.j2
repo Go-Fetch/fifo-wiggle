@@ -915,6 +915,6 @@ erlang.max_ports = 65536
 ## erlang.schedulers.utilization_balancing = true
 
 
-{% if ansible_fqdn in groups['no_snarl_mdns'] %}
+{% if 'no_wiggle_mdns' in group_names %}
 mdns.server = disabled
 {% endif %}
