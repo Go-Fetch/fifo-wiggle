@@ -1,4 +1,3 @@
----
 # Kevin M. Meziere <kmeziere@jpcatholic.com>
 # Copyright 2015, John Paul the Great Catholic University
 
@@ -9,27 +8,32 @@
   ignore_errors: True
 
 - name: Install/Upgrade Wiggle
-  command: "pkg_add -u http://release.project-fifo.net/pkg/'{{ wiggle_release }}'/'{{ wiggle_version_required }}'.tgz" 
+  command: "pkg_add -u http://release.project-fifo.net/pkg/'{{ wiggle_release }}'/'{{ wiggle_version_required }}'.tgz"
   when: wiggle_version_installed.stdout != '{{ wiggle_version_required }}'
+
+- name: Import Patched  Wiggle Service XML
+  template: src=wiggle-xml.j2 dest=/opt/local/fifo-wiggle/share/wiggle.xml
+
+- name: Import Wiggle Service
+  command: /usr/sbin/svccfg import /opt/local/fifo-wiggle/share/wiggle.xml
 
 - name: Configure Wiggle
   template: src=wiggle-config.j2 dest=/opt/local/fifo-wiggle/etc/wiggle.conf backup=yes
-#  notify: Bounce Wiggle
+  notify: Bounce Wiggle
 
 - name: Enable EPMD
   service: name=epmd state=started enabled=yes
   when: "'wiggle_no_start' not in {{ group_names }}"
 
-# to be used when FIFO-595 is closed
+- name: Manually start Wiggle
+  command: svcadm enable wiggle
+  when: "'wiggle_no_start' not in {{ group_names }}"
+
 #- name: Enable Wiggle
 #  service: name=wiggle state=started enabled=yes 
 #  when: "'wiggle_no_start' not in {{ group_names }}"
 #  register: wiggle_service_start
 
-#- name: Pause for Wiggle Startup
-#  pause: seconds=20
-#  when: wiggle_service_start.changed != False
-
-- name: Enable Wiggle
-  shell: "svcadm enable wiggle"
-  when: "'wiggle_no_start' not in {{ group_names }}"
+- name: Pause for Wiggle Startup
+  pause: seconds=20
+  when: wiggle_service_start.changed != False
