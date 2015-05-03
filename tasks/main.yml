@@ -28,9 +28,10 @@
 - name: Manually start Wiggle
   command: svcadm enable wiggle
   when: "'wiggle_no_start' not in {{ group_names }}"
+  register: wiggle_service_start
 
 #- name: Enable Wiggle
-#  service: name=wiggle state=started enabled=yes 
+#  service: name=wiggle state=started enabled=yes
 #  when: "'wiggle_no_start' not in {{ group_names }}"
 #  register: wiggle_service_start
 
